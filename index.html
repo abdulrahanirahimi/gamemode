@@ -1,142 +1,97 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>GameMode Ultimate</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GameMode</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-body{margin:0;background:#08111f;color:#fff;font-family:Arial}
-header{text-align:center;padding:20px;background:#0d1b33}
-h1{margin:0;font-size:60px} h1 span{color:#2ea8ff}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;padding:20px}
-.card{background:#10203b;border:1px solid #2ea8ff;border-radius:12px;padding:15px;cursor:pointer}
-.card:hover{transform:translateY(-3px)}
-#game{display:none;padding:20px}
-button{padding:10px 14px}
-canvas{background:#000;border:2px solid #2ea8ff;max-width:100%}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:#08111f;color:#eef6ff}
+#hero{padding:2.5rem 1rem 1.2rem;text-align:center}
+#hero h1{font-family:'Bebas Neue',sans-serif;font-size:64px;letter-spacing:4px}
+#hero h1 span{color:#2f80ff}
+#hero p{font-size:11px;color:#7fa7e6;letter-spacing:2px;text-transform:uppercase}
+#searchbar{display:flex;gap:8px;padding:0 1rem;max-width:700px;margin:auto}
+#search{flex:1;padding:12px 16px;border-radius:10px;border:1px solid #1d3f73;background:#0f1b2e;color:white}
+#grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;padding:20px}
+.card{background:#0f1b2e;border:1px solid #173867;border-radius:12px;overflow:hidden;cursor:pointer;transition:.2s}
+.card:hover{transform:translateY(-4px);border-color:#2f80ff}
+.card img{width:100%;aspect-ratio:16/9;object-fit:cover}
+.info{padding:10px}
+.title{font-weight:600}
+.genre{font-size:12px;color:#8eb4f5;margin-top:4px}
+#player{display:none;padding:20px}
+#frame{width:100%;height:80vh;border:none;border-radius:12px;background:#000}
+.btn{padding:10px 16px;border:none;border-radius:8px;background:#2f80ff;color:white;cursor:pointer}
 </style>
 </head>
 <body>
-<header><h1>GAME<span>MODE</span></h1><p>20 Local HTML5 Games</p></header>
+<div id="hero">
+<h1>GAME<span>.</span>MODE</h1>
+<p>Play Browser Games Instantly</p>
+</div>
 
-<div id="home" class="grid"></div>
+<div id="searchbar">
+<input id="search" placeholder="Search games..." oninput="filterGames()">
+</div>
 
-<div id="game">
-<button onclick="back()">← Back</button>
-<h2 id="title"></h2>
-<canvas id="c" width="800" height="500"></canvas>
+<div id="grid"></div>
+
+<div id="player">
+<button class="btn" onclick="goBack()">← Back</button>
+<h2 id="gameTitle" style="margin:12px 0"></h2>
+<iframe id="frame" allowfullscreen></iframe>
 </div>
 
 <script>
 const games=[
-"Snake","Snake Fast","Snake Tiny","Pong","Pong Turbo","Breakout","Breakout Hard",
-"Dodge","Dodge Extreme","Flappy","Flappy Fast","Runner","Runner Night",
-"Asteroids","Asteroids Hard","Target Click","Target Pro","Memory","Maze","Brick Survival"
+{title:"Moto X3M",genre:"Puzzle",image:"https://picsum.photos/400/225?1",url:"https://play.famobi.com/moto-x3m-pool-party/"},
+{title:"Hextris",genre:"Arcade",image:"https://picsum.photos/400/225?2",url:"https://hextris.io/"},
+{title:"Cookie Clicker",genre:"Idle",image:"https://picsum.photos/400/225?3",url:"https://orteil.dashnet.org/cookieclicker/"},
+{title:"Tetris",genre:"Classic",image:"https://picsum.photos/400/225?4",url:"https://tetris.com/play-tetris"},
+{title:"Slope",genre:"Runner",image:"https://picsum.photos/400/225?5",url:"https://slopegame.io/"}
 ];
 
-home.innerHTML=games.map(g=>`<div class=card onclick="startGame('${g}')"><h3>${g}</h3><p>Play locally</p></div>`).join('');
-
-let ctx=c.getContext('2d'), current=null;
-
-function startGame(name){
-home.style.display='none';
-game.style.display='block';
-title.textContent=name;
-current=name;
-if(name.includes("Snake")) snake();
-else if(name.includes("Pong")) pong();
-else if(name.includes("Breakout")) breakout();
-else if(name.includes("Dodge")) dodge();
-else if(name.includes("Flappy")) flappy();
-else simpleGame(name);
+function render(list){
+const grid=document.getElementById('grid');
+grid.innerHTML='';
+list.forEach(g=>{
+grid.innerHTML+=`
+<div class="card" onclick="playGame('${g.url}','${g.title}')">
+<img src="${g.image}" alt="">
+<div class="info">
+<div class="title">${g.title}</div>
+<div class="genre">${g.genre}</div>
+</div>
+</div>`;
+});
 }
 
-function back(){location.reload()}
-
-function clearLoop(){ if(window.loop) clearInterval(loop); }
-
-function snake(){
-clearLoop();
-let x=10,y=10,dx=1,dy=0,food=[15,15];
-document.onkeydown=e=>{if(e.key=="ArrowUp"){dx=0;dy=-1}
-if(e.key=="ArrowDown"){dx=0;dy=1}
-if(e.key=="ArrowLeft"){dx=-1;dy=0}
-if(e.key=="ArrowRight"){dx=1;dy=0}};
-loop=setInterval(()=>{
-x+=dx;y+=dy;
-if(x<0)x=39;if(x>39)x=0;if(y<0)y=24;if(y>24)y=0;
-ctx.fillStyle="black";ctx.fillRect(0,0,800,500);
-ctx.fillStyle="lime";ctx.fillRect(x*20,y*20,18,18);
-ctx.fillStyle="red";ctx.fillRect(food[0]*20,food[1]*20,18,18);
-},80);
+function filterGames(){
+const q=document.getElementById('search').value.toLowerCase();
+render(games.filter(g=>g.title.toLowerCase().includes(q)));
 }
 
-function pong(){
-clearLoop();
-let y=200,by=250,bx=400,vx=5,vy=4;
-document.onmousemove=e=>y=e.clientY-100;
-loop=setInterval(()=>{
-bx+=vx;by+=vy;
-if(by<0||by>500)vy*=-1;
-if(bx<40&&by>y&&by<y+100)vx*=-1;
-ctx.fillRect(0,0,800,500);
-ctx.fillStyle="white";
-ctx.fillRect(20,y,15,100);
-ctx.fillRect(bx,by,15,15);
-},16);
+function playGame(url,title){
+document.getElementById('grid').style.display='none';
+document.getElementById('searchbar').style.display='none';
+document.getElementById('hero').style.display='none';
+document.getElementById('player').style.display='block';
+document.getElementById('frame').src=url;
+document.getElementById('gameTitle').textContent=title;
 }
 
-function breakout(){
-clearLoop();
-let bx=400,by=300,vx=4,vy=-4,p=350;
-document.onmousemove=e=>p=e.clientX-60;
-loop=setInterval(()=>{
-ctx.fillRect(0,0,800,500);
-bx+=vx;by+=vy;
-if(bx<0||bx>800)vx*=-1;if(by<0)vy*=-1;
-if(by>460&&bx>p&&bx<p+120)vy*=-1;
-ctx.fillStyle="cyan";ctx.fillRect(p,470,120,15);
-ctx.fillRect(bx,by,12,12);
-},16);
+function goBack(){
+document.getElementById('player').style.display='none';
+document.getElementById('grid').style.display='grid';
+document.getElementById('searchbar').style.display='flex';
+document.getElementById('hero').style.display='block';
+document.getElementById('frame').src='';
 }
 
-function dodge(){
-clearLoop();
-let px=400,ex=0;
-document.onmousemove=e=>px=e.clientX;
-loop=setInterval(()=>{
-ctx.fillRect(0,0,800,500);
-ex=(ex+6)%800;
-ctx.fillStyle="red";ctx.fillRect(ex,220,40,40);
-ctx.fillStyle="lime";ctx.fillRect(px,450,40,40);
-},16);
-}
-
-function flappy(){
-clearLoop();
-let y=250,v=0;
-document.onkeydown=e=>{if(e.code=="Space")v=-8}
-loop=setInterval(()=>{
-v+=0.5;y+=v;
-ctx.fillRect(0,0,800,500);
-ctx.fillStyle="yellow";ctx.fillRect(200,y,30,30);
-},16);
-}
-
-function simpleGame(name){
-clearLoop();
-let t=0;
-loop=setInterval(()=>{
-t++;
-ctx.fillStyle="black";ctx.fillRect(0,0,800,500);
-ctx.fillStyle="#2ea8ff";
-ctx.font="40px Arial";
-ctx.fillText(name,280,220);
-ctx.fillText("Local HTML5 Mode",220,300);
-ctx.fillText("Demo Game Screen "+t,220,360);
-},30);
-}
+render(games);
 </script>
 </body>
 </html>
