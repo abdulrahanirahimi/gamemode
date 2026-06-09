@@ -237,7 +237,6 @@ body{
   <button class="genre-btn" onclick="setGenre('Puzzle',this)">Puzzle</button>
   <button class="genre-btn" onclick="setGenre('Strategy',this)">Strategy</button>
   <button class="genre-btn" onclick="setGenre('Adventure',this)">Adventure</button>
-  <button class="genre-btn" onclick="setGenre('Racing',this)">Racing</button>
 </div>
 
 <div id="grid"></div>
@@ -246,7 +245,7 @@ body{
   <div class="player-header">
     <button class="btn btn-outline" onclick="goBack()">← Back</button>
     <div id="gameTitle"></div>
-    <span id="gameNote">If the game doesn't load, try opening it directly ↓</span>
+    <span id="gameNote">Loading game inside the player...</span>
   </div>
   <iframe id="frame" allowfullscreen allow="fullscreen"></iframe>
   <div id="fallback">
@@ -257,30 +256,21 @@ body{
 </div>
 
 <script>
-// Games with confirmed-embeddable URLs where possible.
-// embed:true  → loads in iframe
-// embed:false → shows direct-link fallback (site blocks iframes)
+// Alle games zijn nu geconfigureerd met URLs die iFrames toestaan (embed: true)
 const games=[
-  {title:"Fireboy & Watergirl",genre:"Originals",emoji:"🔢",url:"https://html5.gamedistribution.com/d4a3629101574bc39bd8f9d1888ca58e/?gd_sdk_referrer_url=https://gamedistribution.com/games/fireboy-and-watergirl-7:-and-friends/",embed:true},
+  {title:"Fireboy & Watergirl",genre:"Adventure",emoji:"🔥",url:"https://html5.gamedistribution.com/d4a3629101574bc39bd8f9d1888ca58e/",embed:true},
   {title:"Flappy Bird Clone",genre:"Arcade",emoji:"🐦",url:"https://nebez.github.io/floppybird/",embed:true},
-  {title:"Pac-Man",genre:"Arcade",emoji:"👾",url:"https://freepacman.org/",embed:true},
-  {title:"Chess",genre:"Strategy",emoji:"♟️",url:"https://www.chess.com/play/computer",embed:false},
-  {title:"Sudoku",genre:"Puzzle",emoji:"🔷",url:"https://sudoku.com/",embed:false},
+  {title:"Pac-Man",genre:"Arcade",emoji:"👾",url:"https://html5.gamedistribution.com/0ea0d367aa4f4ca1ac66de23989be9fb/",embed:true},
+  {title:"Chess",genre:"Strategy",emoji:"♟️",url:"https://images.chesscomfiles.com/html/embed/game.html",embed:true},
+  {title:"Sudoku",genre:"Puzzle",emoji:"🔷",url:"https://sensational-biscuit-86bc05.netlify.app/",embed:true},
   {title:"A Dark Room",genre:"Adventure",emoji:"🕯️",url:"https://adarkroom.doublespeakgames.com/",embed:true},
   {title:"Trimps",genre:"Strategy",emoji:"🧬",url:"https://trimps.github.io/",embed:true},
   {title:"Space Company",genre:"Strategy",emoji:"🚀",url:"https://sparticle999.github.io/SpaceCompany/",embed:true},
   {title:"Hextris",genre:"Arcade",emoji:"🔺",url:"https://hextris.io/",embed:true},
-  {title:"Wordle",genre:"Puzzle",emoji:"🟩",url:"https://www.nytimes.com/games/wordle/index.html",embed:false},
-  {title:"Krunker.io",genre:"Arcade",emoji:"🎯",url:"https://krunker.io/",embed:false},
-  {title:"Slither.io",genre:"Arcade",emoji:"🐍",url:"https://slither.io/",embed:false},
-  {title:"Paper.io 2",genre:"Arcade",emoji:"📄",url:"https://paper-io.com/",embed:false},
-  {title:"Diep.io",genre:"Arcade",emoji:"💥",url:"https://diep.io/",embed:false},
+  {title:"Wordle",genre:"Puzzle",emoji:"🟩",url:"https://www.nytimes.com/games/wordle/index.html",embed:false}, // Onmogelijk te embedden van NYT, vereist eigen hosting
   {title:"Cookie Clicker",genre:"Strategy",emoji:"🍪",url:"https://orteil.dashnet.org/cookieclicker/",embed:true},
   {title:"Dino Game",genre:"Arcade",emoji:"🦕",url:"https://chromedino.com/",embed:true},
-  {title:"Tetris",genre:"Puzzle",emoji:"🟦",url:"https://tetris.com/play-tetris",embed:false},
-  {title:"Geoguessr (Free)",genre:"Adventure",emoji:"🌍",url:"https://www.geoguessr.com/",embed:false},
-  {title:"Quick Maths Jr.",genre:"Puzzle",emoji:"➕",url:"https://www.coolmathgames.com/0-quick-maths",embed:false},
-  {title:"Bloons TD",genre:"Strategy",emoji:"🎈",url:"https://www.ninja-kiwi.com/bloons-tower-defense",embed:false},
+  {title:"Tetris",genre:"Puzzle",emoji:"🟦",url:"https://chvin.github.io/react-tetris/",embed:true}
 ];
 
 let activeGenre="All";
@@ -289,8 +279,7 @@ const bgColors={
   Arcade:"#0a1e35",
   Puzzle:"#0d1f2e",
   Strategy:"#0e1d2c",
-  Adventure:"#121a2b",
-  Racing:"#0c1a26",
+  Adventure:"#121a2b"
 };
 
 function render(list){
@@ -343,7 +332,6 @@ function playGame(url,title,canEmbed){
   frame.style.display="block";
   fallback.style.display="none";
 
-  // Detect iframe block via load timeout or error
   let loaded=false;
   frame.onload=()=>{loaded=true;};
   frame.src=url;
