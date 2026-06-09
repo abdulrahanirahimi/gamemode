@@ -8,196 +8,37 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-
-body{
-  font-family:'DM Sans',sans-serif;
-  background:#08111f;
-  color:white;
-  min-height:100vh;
-}
-
-/* ── HERO ── */
-#hero{
-  text-align:center;
-  padding:48px 20px 28px;
-}
-#hero h1{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(52px,10vw,86px);
-  letter-spacing:5px;
-  line-height:1;
-}
+body{font-family:'DM Sans',sans-serif;background:#08111f;color:white;min-height:100vh;}
+#hero{text-align:center;padding:48px 20px 28px;}
+#hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,10vw,86px);letter-spacing:5px;line-height:1;}
 #hero span{color:#2f80ff;}
-#hero p{
-  color:#6a9cda;
-  text-transform:uppercase;
-  letter-spacing:3px;
-  font-size:13px;
-  margin-top:6px;
-}
-
-/* ── FILTER BAR ── */
-#controls{
-  max-width:800px;
-  margin:0 auto 24px;
-  padding:0 20px;
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  align-items:center;
-}
-#search{
-  flex:1;
-  min-width:180px;
-  padding:12px 16px;
-  border:1px solid #1a3a6b;
-  border-radius:10px;
-  background:#0d1929;
-  color:white;
-  font-size:15px;
-  font-family:'DM Sans',sans-serif;
-  outline:none;
-  transition:border-color .2s;
-}
+#hero p{color:#6a9cda;text-transform:uppercase;letter-spacing:3px;font-size:13px;margin-top:6px;}
+#controls{max-width:800px;margin:0 auto 24px;padding:0 20px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+#search{flex:1;min-width:180px;padding:12px 16px;border:1px solid #1a3a6b;border-radius:10px;background:#0d1929;color:white;font-size:15px;outline:none;}
 #search:focus{border-color:#2f80ff;}
-#search::placeholder{color:#4a6ea0;}
-
-.genre-btn{
-  padding:8px 14px;
-  border-radius:8px;
-  border:1px solid #1a3a6b;
-  background:#0d1929;
-  color:#7aa8e0;
-  font-size:13px;
-  cursor:pointer;
-  font-family:'DM Sans',sans-serif;
-  transition:.15s;
-  white-space:nowrap;
-}
-.genre-btn:hover,.genre-btn.active{
-  background:#1a3a6b;
-  color:white;
-  border-color:#2f80ff;
-}
-
-/* ── GRID ── */
-#grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-  gap:16px;
-  padding:0 20px 40px;
-  max-width:1300px;
-  margin:0 auto;
-}
-
-.card{
-  background:#0d1929;
-  border:1px solid #172f56;
-  border-radius:14px;
-  overflow:hidden;
-  cursor:pointer;
-  transition:transform .18s, border-color .18s, box-shadow .18s;
-  position:relative;
-}
-.card:hover{
-  transform:translateY(-5px);
-  border-color:#2f80ff;
-  box-shadow:0 8px 32px rgba(47,128,255,.18);
-}
-.card-thumb{
-  width:100%;
-  height:130px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:52px;
-  user-select:none;
-}
-.card .info{padding:12px 14px 14px;}
-.card .title{font-weight:600;font-size:15px;margin-bottom:4px;}
-.card .genre{
-  color:#5a8dcb;
-  font-size:12px;
-  text-transform:uppercase;
-  letter-spacing:1px;
-}
-
-/* ── EMPTY STATE ── */
-#empty{
-  display:none;
-  text-align:center;
-  padding:60px 20px;
-  color:#4a6ea0;
-  grid-column:1/-1;
-}
-#empty span{font-size:48px;display:block;margin-bottom:12px;}
-
-/* ── PLAYER ── */
-#player{
-  display:none;
-  padding:16px 20px 32px;
-  max-width:1300px;
-  margin:0 auto;
-}
-.player-header{
-  display:flex;
-  align-items:center;
-  gap:14px;
-  margin-bottom:14px;
-  flex-wrap:wrap;
-}
-.btn{
-  background:#2f80ff;
-  color:white;
-  border:none;
-  padding:10px 18px;
-  border-radius:9px;
-  cursor:pointer;
-  font-family:'DM Sans',sans-serif;
-  font-size:14px;
-  font-weight:500;
-  transition:background .15s;
-  text-decoration:none;
-}
-.btn:hover{background:#1a6ee8;}
-.btn-outline{
-  background:transparent;
-  border:1px solid #2f80ff;
-  color:#2f80ff;
-}
-.btn-outline:hover{background:#2f80ff22;}
-#gameTitle{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:28px;
-  letter-spacing:2px;
-}
-#openTabBtn {
-  margin-left: auto;
-}
-#frame{
-  width:100%;
-  height:80vh;
-  border:none;
-  border-radius:14px;
-  background:#000;
-  display:block;
-}
+.genre-btn{padding:8px 14px;border-radius:8px;border:1px solid #1a3a6b;background:#0d1929;color:#7aa8e0;font-size:13px;cursor:pointer;}
+.genre-btn:hover,.genre-btn.active{background:#1a3a6b;color:white;border-color:#2f80ff;}
+#grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;padding:0 20px 40px;max-width:1300px;margin:0 auto;}
+.card{background:#0d1929;border:1px solid #172f56;border-radius:14px;overflow:hidden;cursor:pointer;transition:.18s;}
+.card:hover{transform:translateY(-5px);border-color:#2f80ff;box-shadow:0 8px 32px rgba(47,128,255,.18);}
+.card-thumb{width:100%;height:130px;display:flex;align-items:center;justify-content:center;font-size:52px;}
+.info{padding:12px 14px 14px;}
+.title{font-weight:600;font-size:15px;margin-bottom:4px;}
+.genre{color:#5a8dcb;font-size:12px;text-transform:uppercase;letter-spacing:1px;}
+#player{display:none;padding:16px 20px 32px;max-width:1300px;margin:0 auto;}
+.player-header{display:flex;align-items:center;gap:14px;margin-bottom:14px;}
+.btn{background:#2f80ff;color:white;border:none;padding:10px 18px;border-radius:9px;cursor:pointer;text-decoration:none;font-weight:500;}
+.btn-outline{background:transparent;border:1px solid #2f80ff;color:#2f80ff;}
+#frame{width:100%;height:80vh;border:none;border-radius:14px;background:#000;display:block;}
 </style>
 </head>
 <body>
 
-<div id="hero">
-  <h1>GAME<span>.</span>MODE</h1>
-  <p>Play Browser Games Instantly</p>
-</div>
-
+<div id="hero"><h1>GAME<span>.</span>MODE</h1></div>
 <div id="controls">
   <input id="search" placeholder="Search games…" oninput="filterGames()">
   <button class="genre-btn active" onclick="setGenre('All',this)">All</button>
   <button class="genre-btn" onclick="setGenre('Arcade',this)">Arcade</button>
-  <button class="genre-btn" onclick="setGenre('Puzzle',this)">Puzzle</button>
-  <button class="genre-btn" onclick="setGenre('Strategy',this)">Strategy</button>
-  <button class="genre-btn" onclick="setGenre('Adventure',this)">Adventure</button>
 </div>
 
 <div id="grid"></div>
@@ -208,65 +49,34 @@ body{
     <div id="gameTitle"></div>
     <a id="openTabBtn" href="#" target="_blank" rel="noopener" class="btn">Open in New Tab ↗</a>
   </div>
-  <iframe id="frame" allowfullscreen allow="fullscreen" sandbox="allow-scripts allow-same-origin allow-forms allow-downloads"></iframe>
+  <iframe id="frame" allowfullscreen allow="fullscreen" sandbox="allow-scripts allow-same-origin allow-forms allow-pointer-lock allow-downloads"></iframe>
 </div>
 
 <script>
-// Lijst met games, A Dark Room is nu verwijderd.
 const games=[
-  {title:"Drive Mad",genre:"Arcade",emoji:"🚙",url:"https://ubg100.github.io/games/drive-mad/index.html"},
+  // Geüpdatete Drive Mad link naar een stabielere bron
+  {title:"Drive Mad",genre:"Arcade",emoji:"🚙",url:"https://games.crazygames.com/en_US/drive-mad/index.html"},
   {title:"Flappy Bird",genre:"Arcade",emoji:"🐦",url:"https://nebez.github.io/floppybird/"},
   {title:"2048",genre:"Puzzle",emoji:"🔢",url:"https://gabrielecirulli.github.io/2048/"},
   {title:"Snake",genre:"Arcade",emoji:"🐍",url:"https://lorecioni.github.io/snake/"},
-  {title:"Tetris (React)",genre:"Puzzle",emoji:"🟦",url:"https://chvin.github.io/react-tetris/"},
+  {title:"Tetris",genre:"Puzzle",emoji:"🟦",url:"https://chvin.github.io/react-tetris/"},
   {title:"Hextris",genre:"Arcade",emoji:"🔺",url:"https://hextris.io/"},
   {title:"Dino Game",genre:"Arcade",emoji:"🦕",url:"https://chromedino.com/"},
   {title:"Sudoku",genre:"Puzzle",emoji:"🔷",url:"https://mcronberg.github.io/soduku/"},
-  {title:"Cookie Clicker",genre:"Strategy",emoji:"🍪",url:"https://clickcookies.github.io/"},
+  {title:"Cookie Clicker",genre:"Strategy",emoji:"🍪",url:"https://orteil.dashnet.org/cookieclicker/"},
   {title:"Trimps",genre:"Strategy",emoji:"🧬",url:"https://trimps.github.io/"},
   {title:"Space Company",genre:"Strategy",emoji:"🚀",url:"https://sparticle999.github.io/SpaceCompany/"},
   {title:"Tic Tac Toe",genre:"Puzzle",emoji:"❌",url:"https://richardshaju.github.io/tictactoe/"}
 ];
 
-let activeGenre="All";
-
-const bgColors={
-  Arcade:"#0a1e35",
-  Puzzle:"#0d1f2e",
-  Strategy:"#0e1d2c",
-  Adventure:"#121a2b"
-};
-
 function render(list){
   const grid=document.getElementById("grid");
-  if(!list.length){
-    grid.innerHTML=`<div id="empty" style="display:block"><span>🎮</span>No games match your search.</div>`;
-    return;
-  }
   grid.innerHTML=list.map(g=>`
-    <div class="card" onclick="playGame('${g.url}','${g.title}')" title="Play ${g.title}">
-      <div class="card-thumb" style="background:${bgColors[g.genre]||'#0d1929'}">${g.emoji}</div>
-      <div class="info">
-        <div class="title">${g.title}</div>
-        <div class="genre">${g.genre}</div>
-      </div>
+    <div class="card" onclick="playGame('${g.url}','${g.title}')">
+      <div class="card-thumb">${g.emoji}</div>
+      <div class="info"><div class="title">${g.title}</div><div class="genre">${g.genre}</div></div>
     </div>
   `).join("");
-}
-
-function filterGames(){
-  const q=document.getElementById("search").value.toLowerCase();
-  let list=games;
-  if(activeGenre!=="All") list=list.filter(g=>g.genre===activeGenre);
-  if(q) list=list.filter(g=>g.title.toLowerCase().includes(q)||g.genre.toLowerCase().includes(q));
-  render(list);
-}
-
-function setGenre(genre,btn){
-  activeGenre=genre;
-  document.querySelectorAll(".genre-btn").forEach(b=>b.classList.remove("active"));
-  btn.classList.add("active");
-  filterGames();
 }
 
 function playGame(url,title){
@@ -274,16 +84,12 @@ function playGame(url,title){
   document.getElementById("controls").style.display="none";
   document.getElementById("grid").style.display="none";
   document.getElementById("player").style.display="block";
-  
   document.getElementById("gameTitle").textContent=title;
   document.getElementById("openTabBtn").href=url;
-  
-  const frame=document.getElementById("frame");
-  frame.src=url;
+  document.getElementById("frame").src=url;
 }
 
 function goBack(){
-  document.getElementById("frame").src="";
   document.getElementById("player").style.display="none";
   document.getElementById("hero").style.display="block";
   document.getElementById("controls").style.display="flex";
