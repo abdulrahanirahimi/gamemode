@@ -121,18 +121,6 @@ body{
   text-transform:uppercase;
   letter-spacing:1px;
 }
-.badge{
-  position:absolute;
-  top:10px;
-  right:10px;
-  background:#2f80ff22;
-  border:1px solid #2f80ff55;
-  color:#7ab8ff;
-  font-size:11px;
-  padding:2px 8px;
-  border-radius:20px;
-  backdrop-filter:blur(4px);
-}
 
 /* ── EMPTY STATE ── */
 #empty{
@@ -169,6 +157,7 @@ body{
   font-size:14px;
   font-weight:500;
   transition:background .15s;
+  text-decoration:none;
 }
 .btn:hover{background:#1a6ee8;}
 .btn-outline{
@@ -182,10 +171,8 @@ body{
   font-size:28px;
   letter-spacing:2px;
 }
-#gameNote{
-  color:#5a8dcb;
-  font-size:13px;
-  margin-left:auto;
+#openTabBtn {
+  margin-left: auto;
 }
 #frame{
   width:100%;
@@ -195,32 +182,6 @@ body{
   background:#000;
   display:block;
 }
-#fallback{
-  display:none;
-  background:#0d1929;
-  border:1px solid #172f56;
-  border-radius:14px;
-  padding:48px 32px;
-  text-align:center;
-  height:80vh;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  gap:16px;
-}
-#fallback p{color:#7aa8e0;max-width:400px;line-height:1.6;}
-#fallback a{
-  display:inline-block;
-  margin-top:8px;
-  padding:12px 24px;
-  background:#2f80ff;
-  color:white;
-  border-radius:10px;
-  text-decoration:none;
-  font-weight:500;
-  transition:background .15s;
-}
-#fallback a:hover{background:#1a6ee8;}
 </style>
 </head>
 <body>
@@ -245,33 +206,29 @@ body{
   <div class="player-header">
     <button class="btn btn-outline" onclick="goBack()">← Back</button>
     <div id="gameTitle"></div>
-    <span id="gameNote">Loading game inside the player...</span>
+    <a id="openTabBtn" href="#" target="_blank" rel="noopener" class="btn">Open in New Tab ↗</a>
   </div>
   <iframe id="frame" allowfullscreen allow="fullscreen"></iframe>
-  <div id="fallback">
-    <span style="font-size:48px">🚫</span>
-    <p>This game seems to be loading slowly or blocks embedding. Open it directly in a new tab!</p>
-    <a id="fallbackLink" href="#" target="_blank" rel="noopener">Open Game ↗</a>
-  </div>
 </div>
 
 <script>
-// Geüpdatete lijst met GitHub en Unblocked links voor games die voorheen faalden.
-// Alle games staan nu op embed: true.
+// Highly stable URLs. 
+// Replaced volatile clone repos with official GameDistribution embeds and original creators.
+// Replaced heavily copyright-striked games (Tetris, Wordle) with stable equivalents (Block Puzzle, 2048)
 const games=[
-  {title:"Fireboy & Watergirl",genre:"Adventure",emoji:"🔥",url:"https://macvg.github.io/fireboy-watergirl-1/",embed:true},
-  {title:"Flappy Bird Clone",genre:"Arcade",emoji:"🐦",url:"https://nebez.github.io/floppybird/",embed:true},
-  {title:"Pac-Man",genre:"Arcade",emoji:"👾",url:"https://html5.gamedistribution.com/0ea0d367aa4f4ca1ac66de23989be9fb/",embed:true},
-  {title:"Chess",genre:"Strategy",emoji:"♟️",url:"https://macvg.github.io/chess/",embed:true},
-  {title:"Sudoku",genre:"Puzzle",emoji:"🔷",url:"https://isanchop.github.io/sudoku/",embed:true},
-  {title:"A Dark Room",genre:"Adventure",emoji:"🕯️",url:"https://shylight.github.io/adarkroom/",embed:true},
-  {title:"Trimps",genre:"Strategy",emoji:"🧬",url:"https://trimps.github.io/",embed:true},
-  {title:"Space Company",genre:"Strategy",emoji:"🚀",url:"https://sparticle999.github.io/SpaceCompany/",embed:true},
-  {title:"Hextris",genre:"Arcade",emoji:"🔺",url:"https://hextris.io/",embed:true},
-  {title:"Wordle",genre:"Puzzle",emoji:"🟩",url:"https://cwackerfuss.github.io/react-wordle/",embed:true},
-  {title:"Cookie Clicker",genre:"Strategy",emoji:"🍪",url:"https://macvg.github.io/cookie-clicker/",embed:true},
-  {title:"Dino Game",genre:"Arcade",emoji:"🦕",url:"https://chromedino.com/",embed:true},
-  {title:"Tetris",genre:"Puzzle",emoji:"🟦",url:"https://chvin.github.io/react-tetris/",embed:true}
+  {title:"Fireboy & Watergirl",genre:"Adventure",emoji:"🔥",url:"https://html5.gamedistribution.com/d4a3629101574bc39bd8f9d1888ca58e/"},
+  {title:"Flappy Bird",genre:"Arcade",emoji:"🐦",url:"https://nebez.github.io/floppybird/"},
+  {title:"Pac-Man",genre:"Arcade",emoji:"👾",url:"https://html5.gamedistribution.com/0ea0d367aa4f4ca1ac66de23989be9fb/"},
+  {title:"Master Chess",genre:"Strategy",emoji:"♟️",url:"https://html5.gamedistribution.com/7106d3fc2cba4a88ae8d184e93010c22/"},
+  {title:"Sudoku",genre:"Puzzle",emoji:"🔷",url:"https://html5.gamedistribution.com/59c47e857ddc4abcb285eb09337ff8c5/"},
+  {title:"A Dark Room",genre:"Adventure",emoji:"🕯️",url:"https://adarkroom.doublespeakgames.com/"},
+  {title:"Trimps",genre:"Strategy",emoji:"🧬",url:"https://trimps.github.io/"},
+  {title:"Space Company",genre:"Strategy",emoji:"🚀",url:"https://sparticle999.github.io/SpaceCompany/"},
+  {title:"Hextris",genre:"Arcade",emoji:"🔺",url:"https://hextris.io/"},
+  {title:"2048",genre:"Puzzle",emoji:"🔢",url:"https://gabrielecirulli.github.io/2048/"}, 
+  {title:"Cookie Clicker",genre:"Strategy",emoji:"🍪",url:"https://orteil.dashnet.org/cookieclicker/"},
+  {title:"Dino Game",genre:"Arcade",emoji:"🦕",url:"https://chromedino.com/"},
+  {title:"Block Puzzle",genre:"Puzzle",emoji:"🟦",url:"https://html5.gamedistribution.com/97ad28de87994646bd0805cf91d90c0a/"} 
 ];
 
 let activeGenre="All";
@@ -290,9 +247,8 @@ function render(list){
     return;
   }
   grid.innerHTML=list.map(g=>`
-    <div class="card" onclick="playGame('${g.url}','${g.title}',${g.embed})" title="Play ${g.title}">
+    <div class="card" onclick="playGame('${g.url}','${g.title}')" title="Play ${g.title}">
       <div class="card-thumb" style="background:${bgColors[g.genre]||'#0d1929'}">${g.emoji}</div>
-      ${!g.embed?'<span class="badge">↗ New Tab</span>':''}
       <div class="info">
         <div class="title">${g.title}</div>
         <div class="genre">${g.genre}</div>
@@ -316,34 +272,17 @@ function setGenre(genre,btn){
   filterGames();
 }
 
-function playGame(url,title,canEmbed){
-  if(!canEmbed){
-    window.open(url,"_blank","noopener");
-    return;
-  }
+function playGame(url,title){
   document.getElementById("hero").style.display="none";
   document.getElementById("controls").style.display="none";
   document.getElementById("grid").style.display="none";
   document.getElementById("player").style.display="block";
+  
   document.getElementById("gameTitle").textContent=title;
-  document.getElementById("fallbackLink").href=url;
-
+  document.getElementById("openTabBtn").href=url;
+  
   const frame=document.getElementById("frame");
-  const fallback=document.getElementById("fallback");
-  frame.style.display="block";
-  fallback.style.display="none";
-
-  let loaded=false;
-  frame.onload=()=>{loaded=true;};
   frame.src=url;
-
-  // Verhoogd naar 6 seconden, sommige open-source games zijn net iets langzamer
-  setTimeout(()=>{
-    if(!loaded){
-      frame.style.display="none";
-      fallback.style.display="flex";
-    }
-  },6000); 
 }
 
 function goBack(){
