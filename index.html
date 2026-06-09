@@ -208,27 +208,24 @@ body{
     <div id="gameTitle"></div>
     <a id="openTabBtn" href="#" target="_blank" rel="noopener" class="btn">Open in New Tab ↗</a>
   </div>
-  <iframe id="frame" allowfullscreen allow="fullscreen"></iframe>
+  <iframe id="frame" allowfullscreen allow="fullscreen" sandbox="allow-scripts allow-same-origin allow-forms allow-pointer-lock"></iframe>
 </div>
 
 <script>
-// Highly stable URLs. 
-// Replaced volatile clone repos with official GameDistribution embeds and original creators.
-// Replaced heavily copyright-striked games (Tetris, Wordle) with stable equivalents (Block Puzzle, 2048)
+// Volledig onafhankelijke HTML5 github repo's die framebusting uitsluiten
 const games=[
-  {title:"Fireboy & Watergirl",genre:"Adventure",emoji:"🔥",url:"https://html5.gamedistribution.com/d4a3629101574bc39bd8f9d1888ca58e/"},
   {title:"Flappy Bird",genre:"Arcade",emoji:"🐦",url:"https://nebez.github.io/floppybird/"},
-  {title:"Pac-Man",genre:"Arcade",emoji:"👾",url:"https://html5.gamedistribution.com/0ea0d367aa4f4ca1ac66de23989be9fb/"},
-  {title:"Master Chess",genre:"Strategy",emoji:"♟️",url:"https://html5.gamedistribution.com/7106d3fc2cba4a88ae8d184e93010c22/"},
-  {title:"Sudoku",genre:"Puzzle",emoji:"🔷",url:"https://html5.gamedistribution.com/59c47e857ddc4abcb285eb09337ff8c5/"},
-  {title:"A Dark Room",genre:"Adventure",emoji:"🕯️",url:"https://adarkroom.doublespeakgames.com/"},
+  {title:"2048",genre:"Puzzle",emoji:"🔢",url:"https://gabrielecirulli.github.io/2048/"},
+  {title:"Snake",genre:"Arcade",emoji:"🐍",url:"https://lorecioni.github.io/snake/"},
+  {title:"Tetris (React)",genre:"Puzzle",emoji:"🟦",url:"https://chvin.github.io/react-tetris/"},
+  {title:"Hextris",genre:"Arcade",emoji:"🔺",url:"https://hextris.io/"},
+  {title:"Dino Game",genre:"Arcade",emoji:"🦕",url:"https://chromedino.com/"},
+  {title:"Sudoku",genre:"Puzzle",emoji:"🔷",url:"https://mcronberg.github.io/soduku/"},
+  {title:"Cookie Clicker",genre:"Strategy",emoji:"🍪",url:"https://clickcookies.github.io/"},
   {title:"Trimps",genre:"Strategy",emoji:"🧬",url:"https://trimps.github.io/"},
   {title:"Space Company",genre:"Strategy",emoji:"🚀",url:"https://sparticle999.github.io/SpaceCompany/"},
-  {title:"Hextris",genre:"Arcade",emoji:"🔺",url:"https://hextris.io/"},
-  {title:"2048",genre:"Puzzle",emoji:"🔢",url:"https://gabrielecirulli.github.io/2048/"}, 
-  {title:"Cookie Clicker",genre:"Strategy",emoji:"🍪",url:"https://orteil.dashnet.org/cookieclicker/"},
-  {title:"Dino Game",genre:"Arcade",emoji:"🦕",url:"https://chromedino.com/"},
-  {title:"Block Puzzle",genre:"Puzzle",emoji:"🟦",url:"https://html5.gamedistribution.com/97ad28de87994646bd0805cf91d90c0a/"} 
+  {title:"Tic Tac Toe",genre:"Puzzle",emoji:"❌",url:"https://playtictactoe.org/"},
+  {title:"A Dark Room",genre:"Adventure",emoji:"🕯️",url:"https://adarkroom.doublespeakgames.com/"}
 ];
 
 let activeGenre="All";
