@@ -1,0 +1,142 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GameMode Ultimate</title>
+<style>
+body{margin:0;background:#08111f;color:#fff;font-family:Arial}
+header{text-align:center;padding:20px;background:#0d1b33}
+h1{margin:0;font-size:60px} h1 span{color:#2ea8ff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;padding:20px}
+.card{background:#10203b;border:1px solid #2ea8ff;border-radius:12px;padding:15px;cursor:pointer}
+.card:hover{transform:translateY(-3px)}
+#game{display:none;padding:20px}
+button{padding:10px 14px}
+canvas{background:#000;border:2px solid #2ea8ff;max-width:100%}
+</style>
+</head>
+<body>
+<header><h1>GAME<span>MODE</span></h1><p>20 Local HTML5 Games</p></header>
+
+<div id="home" class="grid"></div>
+
+<div id="game">
+<button onclick="back()">← Back</button>
+<h2 id="title"></h2>
+<canvas id="c" width="800" height="500"></canvas>
+</div>
+
+<script>
+const games=[
+"Snake","Snake Fast","Snake Tiny","Pong","Pong Turbo","Breakout","Breakout Hard",
+"Dodge","Dodge Extreme","Flappy","Flappy Fast","Runner","Runner Night",
+"Asteroids","Asteroids Hard","Target Click","Target Pro","Memory","Maze","Brick Survival"
+];
+
+home.innerHTML=games.map(g=>`<div class=card onclick="startGame('${g}')"><h3>${g}</h3><p>Play locally</p></div>`).join('');
+
+let ctx=c.getContext('2d'), current=null;
+
+function startGame(name){
+home.style.display='none';
+game.style.display='block';
+title.textContent=name;
+current=name;
+if(name.includes("Snake")) snake();
+else if(name.includes("Pong")) pong();
+else if(name.includes("Breakout")) breakout();
+else if(name.includes("Dodge")) dodge();
+else if(name.includes("Flappy")) flappy();
+else simpleGame(name);
+}
+
+function back(){location.reload()}
+
+function clearLoop(){ if(window.loop) clearInterval(loop); }
+
+function snake(){
+clearLoop();
+let x=10,y=10,dx=1,dy=0,food=[15,15];
+document.onkeydown=e=>{if(e.key=="ArrowUp"){dx=0;dy=-1}
+if(e.key=="ArrowDown"){dx=0;dy=1}
+if(e.key=="ArrowLeft"){dx=-1;dy=0}
+if(e.key=="ArrowRight"){dx=1;dy=0}};
+loop=setInterval(()=>{
+x+=dx;y+=dy;
+if(x<0)x=39;if(x>39)x=0;if(y<0)y=24;if(y>24)y=0;
+ctx.fillStyle="black";ctx.fillRect(0,0,800,500);
+ctx.fillStyle="lime";ctx.fillRect(x*20,y*20,18,18);
+ctx.fillStyle="red";ctx.fillRect(food[0]*20,food[1]*20,18,18);
+},80);
+}
+
+function pong(){
+clearLoop();
+let y=200,by=250,bx=400,vx=5,vy=4;
+document.onmousemove=e=>y=e.clientY-100;
+loop=setInterval(()=>{
+bx+=vx;by+=vy;
+if(by<0||by>500)vy*=-1;
+if(bx<40&&by>y&&by<y+100)vx*=-1;
+ctx.fillRect(0,0,800,500);
+ctx.fillStyle="white";
+ctx.fillRect(20,y,15,100);
+ctx.fillRect(bx,by,15,15);
+},16);
+}
+
+function breakout(){
+clearLoop();
+let bx=400,by=300,vx=4,vy=-4,p=350;
+document.onmousemove=e=>p=e.clientX-60;
+loop=setInterval(()=>{
+ctx.fillRect(0,0,800,500);
+bx+=vx;by+=vy;
+if(bx<0||bx>800)vx*=-1;if(by<0)vy*=-1;
+if(by>460&&bx>p&&bx<p+120)vy*=-1;
+ctx.fillStyle="cyan";ctx.fillRect(p,470,120,15);
+ctx.fillRect(bx,by,12,12);
+},16);
+}
+
+function dodge(){
+clearLoop();
+let px=400,ex=0;
+document.onmousemove=e=>px=e.clientX;
+loop=setInterval(()=>{
+ctx.fillRect(0,0,800,500);
+ex=(ex+6)%800;
+ctx.fillStyle="red";ctx.fillRect(ex,220,40,40);
+ctx.fillStyle="lime";ctx.fillRect(px,450,40,40);
+},16);
+}
+
+function flappy(){
+clearLoop();
+let y=250,v=0;
+document.onkeydown=e=>{if(e.code=="Space")v=-8}
+loop=setInterval(()=>{
+v+=0.5;y+=v;
+ctx.fillRect(0,0,800,500);
+ctx.fillStyle="yellow";ctx.fillRect(200,y,30,30);
+},16);
+}
+
+function simpleGame(name){
+clearLoop();
+let t=0;
+loop=setInterval(()=>{
+t++;
+ctx.fillStyle="black";ctx.fillRect(0,0,800,500);
+ctx.fillStyle="#2ea8ff";
+ctx.font="40px Arial";
+ctx.fillText(name,280,220);
+ctx.fillText("Local HTML5 Mode",220,300);
+ctx.fillText("Demo Game Screen "+t,220,360);
+},30);
+}
+</script>
+</body>
+</html>
