@@ -250,25 +250,26 @@ body{
   <iframe id="frame" allowfullscreen allow="fullscreen"></iframe>
   <div id="fallback">
     <span style="font-size:48px">🚫</span>
-    <p>This game blocks embedding. Open it directly in a new tab — it works great there!</p>
+    <p>This game seems to be loading slowly or blocks embedding. Open it directly in a new tab!</p>
     <a id="fallbackLink" href="#" target="_blank" rel="noopener">Open Game ↗</a>
   </div>
 </div>
 
 <script>
-// Alle games zijn nu geconfigureerd met URLs die iFrames toestaan (embed: true)
+// Geüpdatete lijst met GitHub en Unblocked links voor games die voorheen faalden.
+// Alle games staan nu op embed: true.
 const games=[
-  {title:"Fireboy & Watergirl",genre:"Adventure",emoji:"🔥",url:"https://html5.gamedistribution.com/d4a3629101574bc39bd8f9d1888ca58e/",embed:true},
+  {title:"Fireboy & Watergirl",genre:"Adventure",emoji:"🔥",url:"https://macvg.github.io/fireboy-watergirl-1/",embed:true},
   {title:"Flappy Bird Clone",genre:"Arcade",emoji:"🐦",url:"https://nebez.github.io/floppybird/",embed:true},
   {title:"Pac-Man",genre:"Arcade",emoji:"👾",url:"https://html5.gamedistribution.com/0ea0d367aa4f4ca1ac66de23989be9fb/",embed:true},
-  {title:"Chess",genre:"Strategy",emoji:"♟️",url:"https://images.chesscomfiles.com/html/embed/game.html",embed:true},
-  {title:"Sudoku",genre:"Puzzle",emoji:"🔷",url:"https://sensational-biscuit-86bc05.netlify.app/",embed:true},
-  {title:"A Dark Room",genre:"Adventure",emoji:"🕯️",url:"https://adarkroom.doublespeakgames.com/",embed:true},
+  {title:"Chess",genre:"Strategy",emoji:"♟️",url:"https://macvg.github.io/chess/",embed:true},
+  {title:"Sudoku",genre:"Puzzle",emoji:"🔷",url:"https://isanchop.github.io/sudoku/",embed:true},
+  {title:"A Dark Room",genre:"Adventure",emoji:"🕯️",url:"https://shylight.github.io/adarkroom/",embed:true},
   {title:"Trimps",genre:"Strategy",emoji:"🧬",url:"https://trimps.github.io/",embed:true},
   {title:"Space Company",genre:"Strategy",emoji:"🚀",url:"https://sparticle999.github.io/SpaceCompany/",embed:true},
   {title:"Hextris",genre:"Arcade",emoji:"🔺",url:"https://hextris.io/",embed:true},
-  {title:"Wordle",genre:"Puzzle",emoji:"🟩",url:"https://www.nytimes.com/games/wordle/index.html",embed:false}, // Onmogelijk te embedden van NYT, vereist eigen hosting
-  {title:"Cookie Clicker",genre:"Strategy",emoji:"🍪",url:"https://orteil.dashnet.org/cookieclicker/",embed:true},
+  {title:"Wordle",genre:"Puzzle",emoji:"🟩",url:"https://cwackerfuss.github.io/react-wordle/",embed:true},
+  {title:"Cookie Clicker",genre:"Strategy",emoji:"🍪",url:"https://macvg.github.io/cookie-clicker/",embed:true},
   {title:"Dino Game",genre:"Arcade",emoji:"🦕",url:"https://chromedino.com/",embed:true},
   {title:"Tetris",genre:"Puzzle",emoji:"🟦",url:"https://chvin.github.io/react-tetris/",embed:true}
 ];
@@ -336,12 +337,13 @@ function playGame(url,title,canEmbed){
   frame.onload=()=>{loaded=true;};
   frame.src=url;
 
+  // Verhoogd naar 6 seconden, sommige open-source games zijn net iets langzamer
   setTimeout(()=>{
     if(!loaded){
       frame.style.display="none";
       fallback.style.display="flex";
     }
-  },4000);
+  },6000); 
 }
 
 function goBack(){
