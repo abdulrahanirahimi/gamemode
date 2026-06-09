@@ -208,12 +208,13 @@ body{
     <div id="gameTitle"></div>
     <a id="openTabBtn" href="#" target="_blank" rel="noopener" class="btn">Open in New Tab ↗</a>
   </div>
-  <iframe id="frame" allowfullscreen allow="fullscreen" sandbox="allow-scripts allow-same-origin allow-forms allow-pointer-lock"></iframe>
+  <iframe id="frame" allowfullscreen allow="fullscreen" sandbox="allow-scripts allow-same-origin allow-forms allow-downloads"></iframe>
 </div>
 
 <script>
-// Volledig onafhankelijke HTML5 github repo's die framebusting uitsluiten
+// Lijst met games, A Dark Room is nu verwijderd.
 const games=[
+  {title:"Drive Mad",genre:"Arcade",emoji:"🚙",url:"https://ubg100.github.io/games/drive-mad/index.html"},
   {title:"Flappy Bird",genre:"Arcade",emoji:"🐦",url:"https://nebez.github.io/floppybird/"},
   {title:"2048",genre:"Puzzle",emoji:"🔢",url:"https://gabrielecirulli.github.io/2048/"},
   {title:"Snake",genre:"Arcade",emoji:"🐍",url:"https://lorecioni.github.io/snake/"},
@@ -224,8 +225,7 @@ const games=[
   {title:"Cookie Clicker",genre:"Strategy",emoji:"🍪",url:"https://clickcookies.github.io/"},
   {title:"Trimps",genre:"Strategy",emoji:"🧬",url:"https://trimps.github.io/"},
   {title:"Space Company",genre:"Strategy",emoji:"🚀",url:"https://sparticle999.github.io/SpaceCompany/"},
-  {title:"Tic Tac Toe",genre:"Puzzle",emoji:"❌",url:"https://playtictactoe.org/"},
-  {title:"A Dark Room",genre:"Adventure",emoji:"🕯️",url:"https://adarkroom.doublespeakgames.com/"}
+  {title:"Tic Tac Toe",genre:"Puzzle",emoji:"❌",url:"https://richardshaju.github.io/tictactoe/"}
 ];
 
 let activeGenre="All";
