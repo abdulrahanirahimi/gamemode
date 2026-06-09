@@ -1,227 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GameMode</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-body{
-    font-family:'DM Sans',sans-serif;
-    background:#08111f;
-    color:white;
-}
-
-#hero{
-    text-align:center;
-    padding:40px 20px;
-}
-
-#hero h1{
-    font-family:'Bebas Neue',sans-serif;
-    font-size:70px;
-    letter-spacing:4px;
-}
-
-#hero span{
-    color:#2f80ff;
-}
-
-#hero p{
-    color:#8eb4f5;
-    text-transform:uppercase;
-    letter-spacing:2px;
-}
-
-#searchbar{
-    max-width:700px;
-    margin:auto;
-    padding:0 20px;
-}
-
-#search{
-    width:100%;
-    padding:14px;
-    border:none;
-    border-radius:10px;
-    background:#0f1b2e;
-    color:white;
-}
-
-#grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-    gap:15px;
-    padding:25px;
-}
-
-.card{
-    background:#0f1b2e;
-    border:1px solid #173867;
-    border-radius:12px;
-    overflow:hidden;
-    cursor:pointer;
-    transition:.2s;
-}
-
-.card:hover{
-    transform:translateY(-4px);
-    border-color:#2f80ff;
-}
-
-.card img{
-    width:100%;
-    height:140px;
-    object-fit:cover;
-}
-
-.info{
-    padding:12px;
-}
-
-.title{
-    font-weight:bold;
-}
-
-.genre{
-    color:#8eb4f5;
-    font-size:13px;
-}
-
-#player{
-    display:none;
-    padding:20px;
-}
-
-#frame{
-    width:100%;
-    height:80vh;
-    border:none;
-    border-radius:12px;
-    background:black;
-}
-
-.btn{
-    background:#2f80ff;
-    color:white;
-    border:none;
-    padding:10px 16px;
-    border-radius:8px;
-    cursor:pointer;
-    margin-bottom:15px;
-}
-</style>
-</head>
-<body>
-
-<div id="hero">
-    <h1>GAME<span>.</span>MODE</h1>
-    <p>Play Browser Games Instantly</p>
-</div>
-
-<div id="searchbar">
-    <input id="search" placeholder="Search games..." oninput="filterGames()">
-</div>
-
-<div id="grid"></div>
-
-<div id="player">
-    <button class="btn" onclick="goBack()">← Back</button>
-    <h2 id="gameTitle" style="margin-bottom:15px;"></h2>
-    <iframe id="frame" allowfullscreen></iframe>
-</div>
-
-<script>
 const games = [
 {
 title:"Hextris",
 genre:"Arcade",
-image:"https://picsum.photos/400/225?random=1",
+image:"https://hextris.io/images/share.png",
 url:"https://hextris.io/"
 },
 {
-title:"2048",
-genre:"Puzzle",
-image:"https://picsum.photos/400/225?random=2",
-url:"https://play2048.co/"
+title:"Tunnel Rush",
+genre:"Runner",
+image:"https://images.crazygames.com/tunnel-rush_16x9/20240111095153/tunnel-rush_16x9-cover?auto=format,compress&q=75&cs=strip",
+url:"https://games.crazygames.com/en_US/tunnel-rush/index.html"
 },
 {
-title:"Cookie Clicker",
+title:"Idle Breakout",
 genre:"Idle",
-image:"https://picsum.photos/400/225?random=3",
-url:"https://orteil.dashnet.org/cookieclicker/"
+image:"https://www.kongregate.com/images/site_icons/kongregate_logo.png",
+url:"https://mathsisfun.com/games/idle-breakout.html"
 },
 {
-title:"Space Company",
-genre:"Strategy",
-image:"https://picsum.photos/400/225?random=4",
-url:"https://sparticle999.github.io/SpaceCompany/"
-},
-{
-title:"A Dark Room",
-genre:"Adventure",
-image:"https://picsum.photos/400/225?random=5",
-url:"https://adarkroom.doublespeakgames.com/"
+title:"HexGL",
+genre:"Racing",
+image:"https://hexgl.bkcore.com/images/logo.png",
+url:"https://hexgl.bkcore.com/play/"
 }
 ];
-
-function render(list){
-    const grid = document.getElementById("grid");
-    grid.innerHTML = "";
-
-    list.forEach(game=>{
-        grid.innerHTML += `
-        <div class="card" onclick="playGame('${game.url}','${game.title}')">
-            <img src="${game.image}">
-            <div class="info">
-                <div class="title">${game.title}</div>
-                <div class="genre">${game.genre}</div>
-            </div>
-        </div>
-        `;
-    });
-}
-
-function filterGames(){
-    const q = document.getElementById("search").value.toLowerCase();
-    render(
-        games.filter(g =>
-            g.title.toLowerCase().includes(q)
-        )
-    );
-}
-
-function playGame(url,title){
-    document.getElementById("hero").style.display="none";
-    document.getElementById("searchbar").style.display="none";
-    document.getElementById("grid").style.display="none";
-
-    document.getElementById("player").style.display="block";
-    document.getElementById("frame").src=url;
-    document.getElementById("gameTitle").textContent=title;
-}
-
-function goBack(){
-    document.getElementById("player").style.display="none";
-
-    document.getElementById("hero").style.display="block";
-    document.getElementById("searchbar").style.display="block";
-    document.getElementById("grid").style.display="grid";
-
-    document.getElementById("frame").src="";
-}
-
-render(games);
-</script>
-
-</body>
-</html>
