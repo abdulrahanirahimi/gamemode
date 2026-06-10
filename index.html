@@ -1,11 +1,15 @@
-z   <!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="nl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GameMode</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+
+<!-- Eaglercraft Ping Embed — loaded from jsDelivr CDN (resolves icons.png automatically) -->
+<script src="https://cdn.jsdelivr.net/gh/lax1dude/eaglercraft-HTML5_Ping_Embed@main/embed.min.js"></script>
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'DM Sans',sans-serif;background:#08111f;color:white;min-height:100vh;}
@@ -15,6 +19,43 @@ body{font-family:'DM Sans',sans-serif;background:#08111f;color:white;min-height:
 #hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,10vw,86px);letter-spacing:5px;line-height:1;margin-bottom:10px;}
 #hero span{color:#2f80ff;}
 #hero p{font-size:11px;color:#3a5a8a;letter-spacing:2px;text-transform:uppercase;margin-top:8px;}
+
+/* ── SERVER STATUS BANNER ── */
+#server-section{
+  max-width:800px;
+  margin:0 auto 28px;
+  padding:0 20px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+}
+.server-eyebrow{
+  font-size:10px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:#3a5a8a;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.server-dot{
+  width:6px;height:6px;
+  border-radius:50%;
+  background:#22c55e;
+  box-shadow:0 0 6px #22c55e;
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+#server-embed-container{
+  /* The embed renders a fixed-size Minecraft-style canvas; we just center it */
+  display:flex;
+  justify-content:center;
+}
+#server-embed-container canvas{
+  border-radius:10px;
+  max-width:100%;
+}
 
 /* ── CONTROLS ── */
 #controls{max-width:800px;margin:0 auto 24px;padding:0 20px;display:flex;gap:10px;justify-content:center;}
@@ -26,9 +67,12 @@ body{font-family:'DM Sans',sans-serif;background:#08111f;color:white;min-height:
 #grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;padding:0 20px 40px;max-width:1300px;margin:0 auto;}
 .card{background:#0d1929;border:1px solid #172f56;border-radius:14px;padding:22px 20px;cursor:pointer;transition:.2s;text-align:center;}
 .card:hover{transform:translateY(-5px);border-color:#2f80ff;box-shadow:0 8px 32px rgba(47,128,255,.2);}
+.card.featured{background:linear-gradient(135deg,#0d1929 0%,#071a10 100%);border-color:#1e6b3a;}
+.card.featured:hover{border-color:#22c55e;box-shadow:0 8px 32px rgba(34,197,94,.18);}
 .emoji{font-size:38px;margin-bottom:10px;}
 .card h3{font-size:14px;font-weight:500;color:#c8d8f0;}
 .card .tag{display:inline-block;margin-top:6px;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#2f80ff;opacity:.7;}
+.card.featured .tag{color:#22c55e;opacity:.9;}
 
 /* ── PLAYER ── */
 #player{display:none;padding:20px;max-width:1400px;margin:0 auto;}
@@ -45,8 +89,20 @@ body{font-family:'DM Sans',sans-serif;background:#08111f;color:white;min-height:
 
 <div id="hero">
   <h1>GAME<span>.</span>MODE</h1>
-  <p>17 games — allemaal gratis &amp; direct speelbaar</p>
+  <p>19 games — allemaal gratis &amp; direct speelbaar</p>
 </div>
+
+<!-- ══ EAGLERCRAFT SERVER STATUS ══════════════════════════════════ -->
+<!-- Replace the server address below with your own Eaglercraft     -->
+<!-- WebSocket URL, e.g. "wss://yourserver.com:37781/"              -->
+<div id="server-section">
+  <span class="server-eyebrow">
+    <span class="server-dot"></span>
+    Eaglercraft server status
+  </span>
+  <div id="server-embed-container"></div>
+</div>
+<!-- ══════════════════════════════════════════════════════════════ -->
 
 <div id="controls">
   <input id="search" placeholder="Zoek een game..." oninput="filter()">
@@ -71,50 +127,93 @@ body{font-family:'DM Sans',sans-serif;background:#08111f;color:white;min-height:
 </div>
 
 <script>
-const games = [
-  // ── Arcade ──────────────────────────────────────────────────────
-  { title: "Drive Mad",      emoji: "🚙", tag: "Arcade",   url: "https://lnahtml.github.io/a77/drive-mad/" },
-  { title: "Pac-Man",        emoji: "👾", tag: "Arcade",   url: "https://binbashbanana.github.io/gfiles/gfiles/html5/pacman/" },
-  { title: "Asteroids",      emoji: "🚀", tag: "Arcade",   url: "https://binbashbanana.github.io/gfiles/gfiles/html5/asteroids/" },
-  { title: "Space Huggers",  emoji: "🛸", tag: "Arcade",   url: "https://binbashbanana.github.io/gfiles/gfiles/html5/spacehuggers/" },
-  { title: "Flappy Bird",    emoji: "🐦", tag: "Arcade",   url: "https://nebez.github.io/floppybird/" },
+/* ──────────────────────────────────────────────────────────────────
+   EAGLERCRAFT SERVER PING
+   Change SERVER_ADDRESS to your own server's ip:port or ws(s):// URL.
+   Leave it as-is to ping the public beta server for demo purposes.
+   ────────────────────────────────────────────────────────────────── */
+const SERVER_ADDRESS = "wss://online.eaglercraft.com:37781/"; // ← change me
+const SERVER_NAME    = "Eaglercraft";
 
-  // ── Puzzel ──────────────────────────────────────────────────────
-  { title: "2048",           emoji: "🔢", tag: "Puzzel",   url: "https://gabrielecirulli.github.io/2048/" },
-  { title: "Tetris",         emoji: "🟦", tag: "Puzzel",   url: "https://binbashbanana.github.io/gfiles/gfiles/html5/tetris/" },
-  { title: "Hextris",        emoji: "🔷", tag: "Puzzel",   url: "https://binbashbanana.github.io/gfiles/gfiles/html5/hextris/" },
-  { title: "Breakout",       emoji: "🧱", tag: "Puzzel",   url: "https://binbashbanana.github.io/gfiles/gfiles/html5/breakout/" },
-
-  // ── Klassiek ────────────────────────────────────────────────────
-  { title: "Snake",          emoji: "🐍", tag: "Klassiek", url: "https://binbashbanana.github.io/gfiles/gfiles/html5/snake/" },
-  { title: "Dino Game",      emoji: "🦕", tag: "Klassiek", url: "https://binbashbanana.github.io/gfiles/gfiles/html5/chromedino/" },
-  { title: "Chess",          emoji: "♟️", tag: "Klassiek", url: "https://binbashbanana.github.io/gfiles/gfiles/html5/chess/" },
-  { title: "Minesweeper",    emoji: "💣", tag: "Klassiek", url: "https://minesweeper.github.io/" },
-
-  // ── Runner ──────────────────────────────────────────────────────
-  { title: "Run 3",          emoji: "🏃", tag: "Runner",   url: "https://binbashbanana.github.io/gfiles/gfiles/html5/run3/" },
-  { title: "Geometry Dash",  emoji: "🎮", tag: "Runner",   url: "https://binbashbanana.github.io/gfiles/gfiles/html5/geometrydash/" },
-
-  // ── Idle ────────────────────────────────────────────────────────
-  { title: "Cookie Clicker", emoji: "🍪", tag: "Idle",     url: "https://binbashbanana.github.io/gfiles/gfiles/html5/cookieclicker/" },
-  { title: "A Dark Room",    emoji: "🕯️", tag: "Idle",     url: "https://binbashbanana.github.io/gfiles/gfiles/html5/adarkroom/" },
-
-  // ── Sandbox ───────────────────────────────────────────────────
-  {
-    title: "Sandboxels",
-    emoji: "🧪",
-    tag: "Simulatie",
-    url: "https://sandboxels.r74n.com/"
+window.addEventListener("load", function () {
+  if (typeof ServerEmbed !== "undefined") {
+    try {
+      const embed = new ServerEmbed(
+        document.getElementById("server-embed-container"),
+        "460px"
+      );
+      embed.ping(SERVER_ADDRESS, SERVER_NAME);
+    } catch (e) {
+      document.getElementById("server-section").style.display = "none";
+    }
+  } else {
+    document.getElementById("server-section").style.display = "none";
   }
+});
+
+/* ──────────────────────────────────────────────────────────────────
+   GAME LIST
+   ────────────────────────────────────────────────────────────────── */
+const games = [
+
+  // ── Minecraft ────────────────────────────────────────────────────
+  { title: "Eaglercraft",    emoji: "⛏️", tag: "Minecraft",  featured: true,
+    url: "https://eaglercraft.com/mc/1.8.8/" },
+
+  // ── Arcade ───────────────────────────────────────────────────────
+  { title: "Drive Mad",      emoji: "🚙", tag: "Arcade",
+    url: "https://lnahtml.github.io/a77/drive-mad/" },
+  { title: "Pac-Man",        emoji: "👾", tag: "Arcade",
+    url: "https://binbashbanana.github.io/gfiles/gfiles/html5/pacman/" },
+  { title: "Asteroids",      emoji: "🚀", tag: "Arcade",
+    url: "https://binbashbanana.github.io/gfiles/gfiles/html5/asteroids/" },
+  { title: "Space Huggers",  emoji: "🛸", tag: "Arcade",
+    url: "https://binbashbanana.github.io/gfiles/gfiles/html5/spacehuggers/" },
+  { title: "Flappy Bird",    emoji: "🐦", tag: "Arcade",
+    url: "https://nebez.github.io/floppybird/" },
+
+  // ── Puzzel ───────────────────────────────────────────────────────
+  { title: "2048",           emoji: "🔢", tag: "Puzzel",
+    url: "https://gabrielecirulli.github.io/2048/" },
+  { title: "Tetris",         emoji: "🟦", tag: "Puzzel",
+    url: "https://binbashbanana.github.io/gfiles/gfiles/html5/tetris/" },
+  { title: "Hextris",        emoji: "🔷", tag: "Puzzel",
+    url: "https://binbashbanana.github.io/gfiles/gfiles/html5/hextris/" },
+  { title: "Breakout",       emoji: "🧱", tag: "Puzzel",
+    url: "https://binbashbanana.github.io/gfiles/gfiles/html5/breakout/" },
+
+  // ── Klassiek ─────────────────────────────────────────────────────
+  { title: "Snake",          emoji: "🐍", tag: "Klassiek",
+    url: "https://binbashbanana.github.io/gfiles/gfiles/html5/snake/" },
+  { title: "Dino Game",      emoji: "🦕", tag: "Klassiek",
+    url: "https://binbashbanana.github.io/gfiles/gfiles/html5/chromedino/" },
+  { title: "Chess",          emoji: "♟️", tag: "Klassiek",
+    url: "https://binbashbanana.github.io/gfiles/gfiles/html5/chess/" },
+  { title: "Minesweeper",    emoji: "💣", tag: "Klassiek",
+    url: "https://minesweeper.github.io/" },
+
+  // ── Runner ───────────────────────────────────────────────────────
+  { title: "Run 3",          emoji: "🏃", tag: "Runner",
+    url: "https://binbashbanana.github.io/gfiles/gfiles/html5/run3/" },
+  { title: "Geometry Dash",  emoji: "🎮", tag: "Runner",
+    url: "https://binbashbanana.github.io/gfiles/gfiles/html5/geometrydash/" },
+
+  // ── Idle ─────────────────────────────────────────────────────────
+  { title: "Cookie Clicker", emoji: "🍪", tag: "Idle",
+    url: "https://binbashbanana.github.io/gfiles/gfiles/html5/cookieclicker/" },
+  { title: "A Dark Room",    emoji: "🕯️", tag: "Idle",
+    url: "https://binbashbanana.github.io/gfiles/gfiles/html5/adarkroom/" },
+
+  // ── Simulatie ────────────────────────────────────────────────────
+  { title: "Sandboxels",     emoji: "🧪", tag: "Simulatie",
+    url: "https://sandboxels.r74n.com/" },
 ];
 
-  
-];
-
+/* ── Render ── */
 function render(list) {
-  const grid = document.getElementById("grid");
-  grid.innerHTML = list.map(g => `
-    <div class="card" onclick="play('${g.url}','${g.title}')">
+  document.getElementById("grid").innerHTML = list.map(g => `
+    <div class="card${g.featured ? " featured" : ""}"
+         onclick="play(${JSON.stringify(g.url)}, ${JSON.stringify(g.title)})">
       <div class="emoji">${g.emoji}</div>
       <h3>${g.title}</h3>
       <span class="tag">${g.tag}</span>
@@ -122,31 +221,37 @@ function render(list) {
   `).join("");
 }
 
+/* ── Play / back ── */
+function setHomeVisible(v) {
+  const d = v ? "" : "none";
+  document.getElementById("hero").style.display           = d;
+  document.getElementById("server-section").style.display = d;
+  document.getElementById("controls").style.display       = v ? "flex" : "none";
+  document.getElementById("grid").style.display           = v ? "grid" : "none";
+}
+
 function play(url, title) {
-  document.getElementById("hero").style.display     = "none";
-  document.getElementById("controls").style.display = "none";
-  document.getElementById("grid").style.display     = "none";
-  document.getElementById("player").style.display   = "block";
-  document.getElementById("player-title").textContent = title;
-  document.getElementById("frame").src              = url;
-  document.getElementById("externalLink").href      = url;
+  setHomeVisible(false);
+  document.getElementById("player").style.display       = "block";
+  document.getElementById("player-title").textContent   = title;
+  document.getElementById("frame").src                  = url;
+  document.getElementById("externalLink").href          = url;
+}
+
+function goBack() {
+  document.getElementById("frame").src                  = "";
+  document.getElementById("player").style.display       = "none";
+  setHomeVisible(true);
 }
 
 function goFullscreen() {
   const frame = document.getElementById("frame");
-  if (frame.requestFullscreen)           frame.requestFullscreen();
-  else if (frame.webkitRequestFullscreen) frame.webkitRequestFullscreen();
-  else if (frame.mozRequestFullScreen)    frame.mozRequestFullScreen();
+  if      (frame.requestFullscreen)            frame.requestFullscreen();
+  else if (frame.webkitRequestFullscreen)      frame.webkitRequestFullscreen();
+  else if (frame.mozRequestFullScreen)         frame.mozRequestFullScreen();
 }
 
-function goBack() {
-  document.getElementById("frame").src              = "";
-  document.getElementById("player").style.display   = "none";
-  document.getElementById("hero").style.display     = "block";
-  document.getElementById("controls").style.display = "flex";
-  document.getElementById("grid").style.display     = "grid";
-}
-
+/* ── Search ── */
 function filter() {
   const q = document.getElementById("search").value.toLowerCase();
   render(games.filter(g =>
