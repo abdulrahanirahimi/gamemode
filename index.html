@@ -11,18 +11,13 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'DM Sans',sans-serif;background:#08111f;color:white;min-height:100vh;position:relative;}
 
-/* ── TOP NAV (Home) ── */
-#top-nav {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-}
+/* ── SERVER LIST KNOP STYLING ── */
 .server-list-btn {
   display: inline-block;
-  padding: 8px 16px;
+  padding: 10px 20px;
   background: #152340;
   color: #2f80ff;
-  border-radius: 8px;
+  border-radius: 9px;
   text-decoration: none;
   font-size: 13px;
   font-weight: 500;
@@ -70,10 +65,6 @@ body{font-family:'DM Sans',sans-serif;background:#08111f;color:white;min-height:
 </style>
 </head>
 <body>
-
-<div id="top-nav">
-  <a href="https://servers.eaglercraft.com/" target="_blank" class="server-list-btn">Server list ↗</a>
-</div>
 
 <div id="hero">
   <h1>GAME<span>.</span>MODE</h1>
@@ -179,7 +170,6 @@ function render(list) {
 /* ── Play / back ── */
 function setHomeVisible(v) {
   const d = v ? "" : "none";
-  document.getElementById("top-nav").style.display      = d;
   document.getElementById("hero").style.display         = d;
   document.getElementById("controls").style.display     = v ? "flex" : "none";
   document.getElementById("grid").style.display         = v ? "grid" : "none";
@@ -190,7 +180,7 @@ function play(url, title) {
   document.getElementById("player").style.display       = "block";
   document.getElementById("player-title").textContent   = title;
   
-  // Toon Server list alleen als Eaglercraft is geselecteerd
+  // Toon Server loist knop alleen als de geopende game Eaglercraft is
   if (title.toLowerCase().includes("eaglercraft")) {
     document.getElementById("eagler-server-btn").style.display = "inline-block";
   } else {
