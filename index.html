@@ -68,7 +68,7 @@ body{font-family:'DM Sans',sans-serif;background:#08111f;color:white;min-height:
 
 <div id="hero">
   <h1>GAME<span>.</span>MODE</h1>
-  <p>19 games — allemaal gratis &amp; direct speelbaar</p>
+  <p>24 games — allemaal gratis &amp; direct speelbaar</p>
 </div>
 
 <div id="controls">
@@ -143,14 +143,24 @@ const games = [
     url: "https://binbashbanana.github.io/gfiles/gfiles/html5/run3/" },
   { title: "Geometry Dash",  emoji: "🎮", tag: "Runner",
     url: "https://binbashbanana.github.io/gfiles/gfiles/html5/geometrydash/" },
+  { title: "Slope",          emoji: "🟢", tag: "Runner",
+    url: "https://binbashbanana.github.io/gfiles/gfiles/html5/slope/" },
+  { title: "Subway Surfers", emoji: "🏄", tag: "Runner",
+    url: "https://binbashbanana.github.io/gfiles/gfiles/html5/subwaysurfers/" },
+  { title: "Crossy Road",    emoji: "🐔", tag: "Runner",
+    url: "https://binbashbanana.github.io/gfiles/gfiles/html5/crossyroad/" },
 
-  // ── Idle ─────────────────────────────────────────────────────────
+  // ── Sport & Actie ────────────────────────────────────────────────
+  { title: "Retro Bowl",     emoji: "🏈", tag: "Sport",
+    url: "https://binbashbanana.github.io/gfiles/gfiles/html5/retrobowl/" },
+  { title: "Doom",           emoji: "👹", tag: "Actie",
+    url: "https://binbashbanana.github.io/gfiles/gfiles/html5/doom/" },
+
+  // ── Idle & Simulatie ─────────────────────────────────────────────
   { title: "Cookie Clicker", emoji: "🍪", tag: "Idle",
     url: "https://binbashbanana.github.io/gfiles/gfiles/html5/cookieclicker/" },
   { title: "A Dark Room",    emoji: "🕯️", tag: "Idle",
     url: "https://binbashbanana.github.io/gfiles/gfiles/html5/adarkroom/" },
-
-  // ── Simulatie ────────────────────────────────────────────────────
   { title: "Sandboxels",     emoji: "🧪", tag: "Simulatie",
     url: "https://sandboxels.r74n.com/" },
 ];
@@ -180,7 +190,6 @@ function play(url, title) {
   document.getElementById("player").style.display       = "block";
   document.getElementById("player-title").textContent   = title;
   
-  // Toon Server loist knop alleen als de geopende game Eaglercraft is
   if (title.toLowerCase().includes("eaglercraft")) {
     document.getElementById("eagler-server-btn").style.display = "inline-block";
   } else {
