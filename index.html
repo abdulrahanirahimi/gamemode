@@ -7,7 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
 
-<!-- Eaglercraft Ping Embed — loaded from jsDelivr CDN (resolves icons.png automatically) -->
 <script src="https://cdn.jsdelivr.net/gh/lax1dude/eaglercraft-HTML5_Ping_Embed@main/embed.min.js"></script>
 
 <style>
@@ -48,7 +47,6 @@ body{font-family:'DM Sans',sans-serif;background:#08111f;color:white;min-height:
 }
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
 #server-embed-container{
-  /* The embed renders a fixed-size Minecraft-style canvas; we just center it */
   display:flex;
   justify-content:center;
 }
@@ -92,9 +90,6 @@ body{font-family:'DM Sans',sans-serif;background:#08111f;color:white;min-height:
   <p>19 games — allemaal gratis &amp; direct speelbaar</p>
 </div>
 
-<!-- ══ EAGLERCRAFT SERVER STATUS ══════════════════════════════════ -->
-<!-- Replace the server address below with your own Eaglercraft     -->
-<!-- WebSocket URL, e.g. "wss://yourserver.com:37781/"              -->
 <div id="server-section">
   <span class="server-eyebrow">
     <span class="server-dot"></span>
@@ -102,8 +97,6 @@ body{font-family:'DM Sans',sans-serif;background:#08111f;color:white;min-height:
   </span>
   <div id="server-embed-container"></div>
 </div>
-<!-- ══════════════════════════════════════════════════════════════ -->
-
 <div id="controls">
   <input id="search" placeholder="Zoek een game..." oninput="filter()">
 </div>
@@ -129,10 +122,8 @@ body{font-family:'DM Sans',sans-serif;background:#08111f;color:white;min-height:
 <script>
 /* ──────────────────────────────────────────────────────────────────
    EAGLERCRAFT SERVER PING
-   Change SERVER_ADDRESS to your own server's ip:port or ws(s):// URL.
-   Leave it as-is to ping the public beta server for demo purposes.
    ────────────────────────────────────────────────────────────────── */
-const SERVER_ADDRESS = "wss://online.eaglercraft.com:37781/"; // ← change me
+const SERVER_ADDRESS = "wss://online.eaglercraft.com:37781/"; 
 const SERVER_NAME    = "Eaglercraft";
 
 window.addEventListener("load", function () {
@@ -155,7 +146,6 @@ window.addEventListener("load", function () {
    GAME LIST
    ────────────────────────────────────────────────────────────────── */
 const games = [
-
   // ── Minecraft ────────────────────────────────────────────────────
   { title: "Eaglercraft",    emoji: "⛏️", tag: "Minecraft",  featured: true,
     url: "https://eaglercraft.com/mc/1.8.8/" },
@@ -211,9 +201,10 @@ const games = [
 
 /* ── Render ── */
 function render(list) {
+  // Wrapped onclick in single quotes to stop JSON double quotes from breaking HTML
   document.getElementById("grid").innerHTML = list.map(g => `
     <div class="card${g.featured ? " featured" : ""}"
-         onclick="play(${JSON.stringify(g.url)}, ${JSON.stringify(g.title)})">
+         onclick='play(${JSON.stringify(g.url)}, ${JSON.stringify(g.title)})'>
       <div class="emoji">${g.emoji}</div>
       <h3>${g.title}</h3>
       <span class="tag">${g.tag}</span>
@@ -259,6 +250,7 @@ function filter() {
   ));
 }
 
+// Initial Run
 render(games);
 </script>
 </body>
