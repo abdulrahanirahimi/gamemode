@@ -7,53 +7,39 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
 
-<script src="https://cdn.jsdelivr.net/gh/lax1dude/eaglercraft-HTML5_Ping_Embed@main/embed.min.js"></script>
-
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'DM Sans',sans-serif;background:#08111f;color:white;min-height:100vh;}
+body{font-family:'DM Sans',sans-serif;background:#08111f;color:white;min-height:100vh;position:relative;}
+
+/* ── TOP NAV ── */
+#top-nav {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+.server-list-btn {
+  display: inline-block;
+  padding: 8px 16px;
+  background: #152340;
+  color: #2f80ff;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  border: 1px solid #1a3a6b;
+  transition: .2s;
+}
+.server-list-btn:hover {
+  background: #1e355e;
+  color: #fff;
+  border-color: #2f80ff;
+}
 
 /* ── HERO ── */
-#hero{text-align:center;padding:48px 20px 28px;}
+#hero{text-align:center;padding:60px 20px 28px;}
 #hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,10vw,86px);letter-spacing:5px;line-height:1;margin-bottom:10px;}
 #hero span{color:#2f80ff;}
 #hero p{font-size:11px;color:#3a5a8a;letter-spacing:2px;text-transform:uppercase;margin-top:8px;}
-
-/* ── SERVER STATUS BANNER ── */
-#server-section{
-  max-width:800px;
-  margin:0 auto 28px;
-  padding:0 20px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:8px;
-}
-.server-eyebrow{
-  font-size:10px;
-  letter-spacing:2px;
-  text-transform:uppercase;
-  color:#3a5a8a;
-  display:flex;
-  align-items:center;
-  gap:6px;
-}
-.server-dot{
-  width:6px;height:6px;
-  border-radius:50%;
-  background:#22c55e;
-  box-shadow:0 0 6px #22c55e;
-  animation:pulse 2s ease-in-out infinite;
-}
-@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
-#server-embed-container{
-  display:flex;
-  justify-content:center;
-}
-#server-embed-container canvas{
-  border-radius:10px;
-  max-width:100%;
-}
 
 /* ── CONTROLS ── */
 #controls{max-width:800px;margin:0 auto 24px;padding:0 20px;display:flex;gap:10px;justify-content:center;}
@@ -85,18 +71,15 @@ body{font-family:'DM Sans',sans-serif;background:#08111f;color:white;min-height:
 </head>
 <body>
 
+<div id="top-nav">
+  <a href="https://servers.eaglercraft.com/" target="_blank" class="server-list-btn">Server list ↗</a>
+</div>
+
 <div id="hero">
   <h1>GAME<span>.</span>MODE</h1>
   <p>19 games — allemaal gratis &amp; direct speelbaar</p>
 </div>
 
-<div id="server-section">
-  <span class="server-eyebrow">
-    <span class="server-dot"></span>
-    Eaglercraft server status
-  </span>
-  <div id="server-embed-container"></div>
-</div>
 <div id="controls">
   <input id="search" placeholder="Zoek een game..." oninput="filter()">
 </div>
@@ -119,28 +102,6 @@ body{font-family:'DM Sans',sans-serif;background:#08111f;color:white;min-height:
 </div>
 
 <script>
-/* ──────────────────────────────────────────────────────────────────
-   EAGLERCRAFT SERVER PING
-   ────────────────────────────────────────────────────────────────── */
-const SERVER_ADDRESS = "wss://online.eaglercraft.com:37781/"; 
-const SERVER_NAME    = "Eaglercraft";
-
-window.addEventListener("load", function () {
-  if (typeof ServerEmbed !== "undefined") {
-    try {
-      const embed = new ServerEmbed(
-        document.getElementById("server-embed-container"),
-        "460px"
-      );
-      embed.ping(SERVER_ADDRESS, SERVER_NAME);
-    } catch (e) {
-      document.getElementById("server-section").style.display = "none";
-    }
-  } else {
-    document.getElementById("server-section").style.display = "none";
-  }
-});
-
 /* ──────────────────────────────────────────────────────────────────
    GAME LIST
    ────────────────────────────────────────────────────────────────── */
@@ -213,10 +174,10 @@ function render(list) {
 /* ── Play / back ── */
 function setHomeVisible(v) {
   const d = v ? "" : "none";
-  document.getElementById("hero").style.display           = d;
-  document.getElementById("server-section").style.display = d;
-  document.getElementById("controls").style.display       = v ? "flex" : "none";
-  document.getElementById("grid").style.display           = v ? "grid" : "none";
+  document.getElementById("top-nav").style.display      = d;
+  document.getElementById("hero").style.display         = d;
+  document.getElementById("controls").style.display     = v ? "flex" : "none";
+  document.getElementById("grid").style.display         = v ? "grid" : "none";
 }
 
 function play(url, title) {
@@ -228,8 +189,6 @@ function play(url, title) {
   frame.src = url;
   document.getElementById("externalLink").href = url;
   
-  // Extra truc: forceer focus op de iframe na het laden, 
-  // zodat het toetsenbord direct actief is.
   setTimeout(() => {
     frame.focus();
   }, 500);
