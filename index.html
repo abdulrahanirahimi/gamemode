@@ -123,9 +123,7 @@ body{font-family:'DM Sans',sans-serif;background:#08111f;color:white;min-height:
 /* ──────────────────────────────────────────────────────────────────
    EAGLERCRAFT SERVER PING
    ────────────────────────────────────────────────────────────────── */
-const SERVER_ADDRESS = "// ── Minecraft ────────────────────────────────────────────────────
-{ title: "Eaglercraft",    emoji: "⛏️", tag: "Minecraft",  featured: true,
-  url:https://gfiles.pages.dev/gfiles/html5/eaglercraft/"; 
+const SERVER_ADDRESS = "wss://online.eaglercraft.com:37781/"; 
 const SERVER_NAME    = "Eaglercraft";
 
 window.addEventListener("load", function () {
@@ -150,7 +148,7 @@ window.addEventListener("load", function () {
 const games = [
   // ── Minecraft ────────────────────────────────────────────────────
   { title: "Eaglercraft",    emoji: "⛏️", tag: "Minecraft",  featured: true,
-    url: "gfiles.pages.dev/gfiles/html5/eaglercraft" },
+    url: "https://gfiles.pages.dev/gfiles/html5/eaglercraft/" },
 
   // ── Arcade ───────────────────────────────────────────────────────
   { title: "Drive Mad",      emoji: "🚙", tag: "Arcade",
@@ -203,7 +201,6 @@ const games = [
 
 /* ── Render ── */
 function render(list) {
-  // Wrapped onclick in single quotes to stop JSON double quotes from breaking HTML
   document.getElementById("grid").innerHTML = list.map(g => `
     <div class="card${g.featured ? " featured" : ""}"
          onclick='play(${JSON.stringify(g.url)}, ${JSON.stringify(g.title)})'>
