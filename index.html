@@ -11,7 +11,7 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'DM Sans',sans-serif;background:#08111f;color:white;min-height:100vh;position:relative;}
 
-/* ── TOP NAV ── */
+/* ── TOP NAV (Home) ── */
 #top-nav {
   position: absolute;
   top: 20px;
@@ -88,8 +88,13 @@ body{font-family:'DM Sans',sans-serif;background:#08111f;color:white;min-height:
 
 <div id="player">
   <div class="player-nav">
-    <button class="btn btn-back" onclick="goBack()">← Terug</button>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <button class="btn btn-back" onclick="goBack()">← Terug</button>
+      <a id="eagler-server-btn" href="https://servers.eaglercraft.com/" target="_blank" class="server-list-btn" style="display:none;">Server list ↗</a>
+    </div>
+    
     <span id="player-title">Game</span>
+    
     <div style="display:flex;gap:8px;align-items:center;">
       <button class="btn btn-fs" onclick="goFullscreen()" title="Volledig scherm">⛶</button>
       <a id="externalLink" href="#" target="_blank" class="btn">Open in nieuw tabblad ↗</a>
@@ -184,6 +189,13 @@ function play(url, title) {
   setHomeVisible(false);
   document.getElementById("player").style.display       = "block";
   document.getElementById("player-title").textContent   = title;
+  
+  // Toon Server list alleen als Eaglercraft is geselecteerd
+  if (title.toLowerCase().includes("eaglercraft")) {
+    document.getElementById("eagler-server-btn").style.display = "inline-block";
+  } else {
+    document.getElementById("eagler-server-btn").style.display = "none";
+  }
   
   const frame = document.getElementById("frame");
   frame.src = url;
