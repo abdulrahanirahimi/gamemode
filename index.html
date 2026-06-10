@@ -113,9 +113,8 @@ body{font-family:'DM Sans',sans-serif;background:#08111f;color:white;min-height:
     </div>
   </div>
   <iframe id="frame"
-    allowfullscreen
-    allow="fullscreen; autoplay; pointer-lock"
-    sandbox="allow-scripts allow-same-origin allow-forms allow-pointer-lock allow-popups">
+    allowfullscreen="true"
+    allow="fullscreen; autoplay; pointer-lock">
   </iframe>
 </div>
 
@@ -224,8 +223,16 @@ function play(url, title) {
   setHomeVisible(false);
   document.getElementById("player").style.display       = "block";
   document.getElementById("player-title").textContent   = title;
-  document.getElementById("frame").src                  = url;
-  document.getElementById("externalLink").href          = url;
+  
+  const frame = document.getElementById("frame");
+  frame.src = url;
+  document.getElementById("externalLink").href = url;
+  
+  // Extra truc: forceer focus op de iframe na het laden, 
+  // zodat het toetsenbord direct actief is.
+  setTimeout(() => {
+    frame.focus();
+  }, 500);
 }
 
 function goBack() {
