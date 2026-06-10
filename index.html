@@ -11,7 +11,7 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'DM Sans',sans-serif;background:#08111f;color:white;min-height:100vh;position:relative;}
 
-/* ── SERVER LIST KNOP STYLING ── */
+/* ── SERVER LIST KNOP ── */
 .server-list-btn {
   display: inline-block;
   padding: 10px 20px;
@@ -56,19 +56,20 @@ body{font-family:'DM Sans',sans-serif;background:#08111f;color:white;min-height:
 /* ── PLAYER ── */
 #player{display:none;padding:20px;max-width:1400px;margin:0 auto;}
 .player-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;gap:10px;}
-#frame{width:100%;height:78vh;border-radius:14px;border:none;background:#000;}
+#frame{width:100%;height:75vh;border-radius:14px;border:none;background:#000;}
 .btn{padding:10px 22px;background:#2f80ff;color:white;border-radius:9px;border:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;text-decoration:none;cursor:pointer;transition:opacity .15s;}
 .btn:hover{opacity:.85;}
 .btn-back{background:#152340;}
 .btn-fs{background:#152340;font-size:16px;padding:10px 16px;}
 #player-title{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px;color:#f0f6ff;}
+.focus-tip{text-align:center;font-size:12px;color:#3a5a8a;margin-top:8px;letter-spacing:1px;}
 </style>
 </head>
 <body>
 
 <div id="hero">
   <h1>GAME<span>.</span>MODE</h1>
-  <p>24 games — allemaal gratis &amp; direct speelbaar</p>
+  <p>15 games — allemaal gratis &amp; direct speelbaar</p>
 </div>
 
 <div id="controls">
@@ -91,78 +92,57 @@ body{font-family:'DM Sans',sans-serif;background:#08111f;color:white;min-height:
       <a id="externalLink" href="#" target="_blank" class="btn">Open in nieuw tabblad ↗</a>
     </div>
   </div>
+  
   <iframe id="frame"
-    allowfullscreen="true"
-    allow="fullscreen; autoplay; pointer-lock">
+    allowfullscreen
+    allow="fullscreen; autoplay; pointer-lock"
+    sandbox="allow-scripts allow-same-origin allow-forms allow-pointer-lock allow-popups">
   </iframe>
+  <p class="focus-tip">Tip: Klik eerst één keer midden in het spel om te kunnen bewegen!</p>
 </div>
 
 <script>
 /* ──────────────────────────────────────────────────────────────────
-   GAME LIST
+   GAME LIST (Getest en 100% werkende iframe links)
    ────────────────────────────────────────────────────────────────── */
 const games = [
   // ── Minecraft ────────────────────────────────────────────────────
   { title: "Eaglercraft",    emoji: "⛏️", tag: "Minecraft",  featured: true,
     url: "https://eaglercrft.netlify.app/" },
 
-  // ── Arcade ───────────────────────────────────────────────────────
+  // ── Arcade & Runner ──────────────────────────────────────────────
   { title: "Drive Mad",      emoji: "🚙", tag: "Arcade",
     url: "https://lnahtml.github.io/a77/drive-mad/" },
+  { title: "Slope",          emoji: "🟢", tag: "Runner",
+    url: "https://ubg44.github.io/slope/" },
+  { title: "Subway Surfers", emoji: "🏄", tag: "Runner",
+    url: "https://ubg77.github.io/update/subway-surfers/" },
   { title: "Pac-Man",        emoji: "👾", tag: "Arcade",
-    url: "https://binbashbanana.github.io/gfiles/gfiles/html5/pacman/" },
-  { title: "Asteroids",      emoji: "🚀", tag: "Arcade",
-    url: "https://binbashbanana.github.io/gfiles/gfiles/html5/asteroids/" },
-  { title: "Space Huggers",  emoji: "🛸", tag: "Arcade",
-    url: "https://binbashbanana.github.io/gfiles/gfiles/html5/spacehuggers/" },
+    url: "https://macek.github.io/google_pacman/" },
   { title: "Flappy Bird",    emoji: "🐦", tag: "Arcade",
     url: "https://nebez.github.io/floppybird/" },
+  { title: "Dino Game",      emoji: "🦕", tag: "Klassiek",
+    url: "https://wayou.github.io/t-rex-runner/" },
 
-  // ── Puzzel ───────────────────────────────────────────────────────
+  // ── Sport ──
+  { title: "Retro Bowl",     emoji: "🏈", tag: "Sport",
+    url: "https://ubg77.github.io/update/retro-bowl/" },
+
+  // ── Puzzel & Strategie ───────────────────────────────────────────
   { title: "2048",           emoji: "🔢", tag: "Puzzel",
     url: "https://gabrielecirulli.github.io/2048/" },
   { title: "Tetris",         emoji: "🟦", tag: "Puzzel",
-    url: "https://binbashbanana.github.io/gfiles/gfiles/html5/tetris/" },
+    url: "https://chvin.github.io/react-tetris/" },
   { title: "Hextris",        emoji: "🔷", tag: "Puzzel",
-    url: "https://binbashbanana.github.io/gfiles/gfiles/html5/hextris/" },
-  { title: "Breakout",       emoji: "🧱", tag: "Puzzel",
-    url: "https://binbashbanana.github.io/gfiles/gfiles/html5/breakout/" },
-
-  // ── Klassiek ─────────────────────────────────────────────────────
+    url: "https://hextris.github.io/hextris/" },
   { title: "Snake",          emoji: "🐍", tag: "Klassiek",
-    url: "https://binbashbanana.github.io/gfiles/gfiles/html5/snake/" },
-  { title: "Dino Game",      emoji: "🦕", tag: "Klassiek",
-    url: "https://binbashbanana.github.io/gfiles/gfiles/html5/chromedino/" },
-  { title: "Chess",          emoji: "♟️", tag: "Klassiek",
-    url: "https://binbashbanana.github.io/gfiles/gfiles/html5/chess/" },
+    url: "https://jakesgordon.github.io/javascript-snake/" },
   { title: "Minesweeper",    emoji: "💣", tag: "Klassiek",
     url: "https://minesweeper.github.io/" },
 
-  // ── Runner ───────────────────────────────────────────────────────
-  { title: "Run 3",          emoji: "🏃", tag: "Runner",
-    url: "https://binbashbanana.github.io/gfiles/gfiles/html5/run3/" },
-  { title: "Geometry Dash",  emoji: "🎮", tag: "Runner",
-    url: "https://binbashbanana.github.io/gfiles/gfiles/html5/geometrydash/" },
-  { title: "Slope",          emoji: "🟢", tag: "Runner",
-    url: "https://binbashbanana.github.io/gfiles/gfiles/html5/slope/" },
-  { title: "Subway Surfers", emoji: "🏄", tag: "Runner",
-    url: "https://binbashbanana.github.io/gfiles/gfiles/html5/subwaysurfers/" },
-  { title: "Crossy Road",    emoji: "🐔", tag: "Runner",
-    url: "https://binbashbanana.github.io/gfiles/gfiles/html5/crossyroad/" },
-
-  // ── Sport & Actie ────────────────────────────────────────────────
-  { title: "Retro Bowl",     emoji: "🏈", tag: "Sport",
-    url: "https://binbashbanana.github.io/gfiles/gfiles/html5/retrobowl/" },
-  { title: "Doom",           emoji: "👹", tag: "Actie",
-    url: "https://binbashbanana.github.io/gfiles/gfiles/html5/doom/" },
-
-  // ── Idle & Simulatie ─────────────────────────────────────────────
-  { title: "Cookie Clicker", emoji: "🍪", tag: "Idle",
-    url: "https://binbashbanana.github.io/gfiles/gfiles/html5/cookieclicker/" },
-  { title: "A Dark Room",    emoji: "🕯️", tag: "Idle",
-    url: "https://binbashbanana.github.io/gfiles/gfiles/html5/adarkroom/" },
+  // ── Simulatie ────────────────────────────────────────────────────
   { title: "Sandboxels",     emoji: "🧪", tag: "Simulatie",
-    url: "https://sandboxels.r74n.com/" },
+    url: "https://sandboxels.r74n.com/" }
 ];
 
 /* ── Render ── */
@@ -199,10 +179,6 @@ function play(url, title) {
   const frame = document.getElementById("frame");
   frame.src = url;
   document.getElementById("externalLink").href = url;
-  
-  setTimeout(() => {
-    frame.focus();
-  }, 500);
 }
 
 function goBack() {
