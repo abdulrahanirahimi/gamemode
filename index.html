@@ -68,7 +68,7 @@ body{font-family:'DM Sans',sans-serif;background:#08111f;color:white;min-height:
 
 <div id="hero">
   <h1>GAME<span>.</span>MODE</h1>
-  <p>19 games — allemaal gratis &amp; direct speelbaar</p>
+  <p>20 games — allemaal gratis &amp; direct speelbaar</p>
 </div>
 
 <div id="controls">
@@ -105,6 +105,10 @@ const games = [
   // ── Minecraft ────────────────────────────────────────────────────
   { title: "Eaglercraft",    emoji: "⛏️", tag: "Minecraft",  featured: true,
     url: "https://eaglercrft.netlify.app/" },
+
+  // ── Sport ────────────────────────────────────────────────────────
+  { title: "Penalty Shooters 2", emoji: "⚽", tag: "Sport",
+    url: "https://ubg77.github.io/edit/penalty-shooters-2/" },
 
   // ── Arcade ───────────────────────────────────────────────────────
   { title: "Drive Mad",      emoji: "🚙", tag: "Arcade",
@@ -180,7 +184,7 @@ function play(url, title) {
   document.getElementById("player").style.display       = "block";
   document.getElementById("player-title").textContent   = title;
   
-  // Toon Server loist knop alleen als de geopende game Eaglercraft is
+  // Toon Server lijst knop alleen als de geopende game Eaglercraft is
   if (title.toLowerCase().includes("eaglercraft")) {
     document.getElementById("eagler-server-btn").style.display = "inline-block";
   } else {
